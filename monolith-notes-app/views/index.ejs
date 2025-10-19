@@ -1,0 +1,21 @@
+<h1>All Notes</h1>
+<a href="/notes/add" class="add-note-link">+ Add New Note</a>
+
+<div class="notes-grid">
+    <% notes.forEach(note=> { %>
+        <div class="note-card fade-in" id="note-<%= note._id %>">
+            <div class="note-title">
+                <%= note.title %>
+            </div>
+            <div class="note-description">
+                <%= note.description %>
+            </div>
+            <div class="note-actions">
+                <a href="/notes/edit/<%= note._id %>">Edit</a>
+                <form action="/notes/delete/<%= note._id %>" method="POST" class="delete-form">
+                    <button type="submit">Delete</button>
+                </form>
+            </div>
+        </div>
+        <% }) %>
+</div>
