@@ -1,0 +1,7 @@
+<h2>Add Member</h2>
+<form action="<%= formAction %>" method="POST" class="add-edit-form">
+  <input type="text" name="name" placeholder="Name" value="<%= member.name || '' %>" required>
+  <input type="email" name="email" placeholder="Email" value="<%= member.email || '' %>" required>
+  <button type="submit"><%= buttonText %></button>
+</form>
+<a href="/members" class="back-link">← Back to Members</a>

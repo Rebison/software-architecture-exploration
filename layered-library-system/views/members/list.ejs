@@ -1,0 +1,16 @@
+<a href="/members/add" class="add-link">+ Add Member</a>
+<div class="cards-grid">
+  <% members.forEach(member => { %>
+    <div class="card">
+      <h3><%= member.name %></h3>
+      <p>Email: <%= member.email %></p>
+      <p>Member since: <%= member.membershipDate.toDateString() %></p>
+      <div class="actions">
+        <a href="/members/edit/<%= member._id %>">Edit</a>
+        <form action="/members/delete/<%= member._id %>?_method=DELETE" method="POST">
+          <button type="submit">Delete</button>
+        </form>
+      </div>
+    </div>
+  <% }) %>
+</div>

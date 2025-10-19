@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <h1>LMS Dashboard</h1>
+    <nav>
+      <% if (currentUser) { %>
+        <span>Welcome, <%= currentUser.name %> (<%= currentUser.role %>)</span> |
+        <a href="/books">Books</a> |
+        <a href="/members">Members</a> |
+        <a href="/loans">Loans</a> |
+        <a href="/logout">Logout</a>
+      <% } else { %>
+        <a href="/login">Login</a> |
+        <!-- <a href="/register">Register</a> -->
+      <% } %>
+    </nav>
+    <% if (typeof error !== "undefined" && error.length > 0) { %>
+      <p style="color:red"><%= error[0] %></p>
+    <% } %>
+  </header>
+  <main>
+    <%- body %>
+  </main>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<h2>All Books</h2>
+<a href="/books/add" class="add-link">+ Add Book</a>
+
+<div class="cards-grid">
+    <% books.forEach(book=> { %>
+        <div class="card">
+            <h3>
+                <%= book.title %>
+            </h3>
+            <p>Author: <%= book.author %>
+            </p>
+            <p>ISBN: <%= book.isbn || "N/A" %>
+            </p>
+            <p>Available: <%= book.copiesAvailable %>
+            </p>
+            <div class="actions">
+                <a href="/books/edit/<%= book._id %>">Edit</a>
+                <form action="/books/delete/<%= book._id %>?_method=DELETE" method="POST" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </div>
+        </div>
+        <% }) %>
+</div>

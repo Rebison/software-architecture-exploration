@@ -1,0 +1,45 @@
+<h2>All Loans</h2>
+<a href="/loans/borrow" class="add-link">+ Borrow Book</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>Book</th>
+            <th>Member</th>
+            <th>Borrowed At</th>
+            <th>Due Date</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% loans.forEach(loan=> { %>
+            <tr>
+                <td>
+                    <%= loan.book.title %>
+                </td>
+                <td>
+                    <%= loan.member.name %>
+                </td>
+                <td>
+                    <%= loan.borrowedAt.toDateString() %>
+                </td>
+                <td>
+                    <%= loan.dueDate.toDateString() %>
+                </td>
+                <td>
+                    <%= loan.status %>
+                </td>
+                <td>
+                    <% if (loan.status==="borrowed" ) { %>
+                        <form action="/loans/return/<%= loan._id %>" method="POST">
+                            <button type="submit">Return</button>
+                        </form>
+                        <% } else { %>
+                            Returned
+                            <% } %>
+                </td>
+            </tr>
+            <% }) %>
+    </tbody>
+</table>

@@ -1,0 +1,20 @@
+<form action="/loans/borrow" method="POST" class="add-edit-form">
+    <select name="book" required>
+        <option value="">Select Book</option>
+        <% books.forEach(book=> { %>
+            <option value="<%= book._id %>">
+                <%= book.title %> (Available: <%= book.copiesAvailable %>)
+            </option>
+            <% }) %>
+    </select>
+    <select name="member" required>
+        <option value="">Select Member</option>
+        <% members.forEach(member=> { %>
+            <option value="<%= member._id %>">
+                <%= member.name %>
+            </option>
+            <% }) %>
+    </select>
+    <button type="submit">Borrow</button>
+</form>
+<a href="/loans" class="back-link">← Back to Loans</a>
