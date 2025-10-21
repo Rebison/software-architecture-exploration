@@ -7,6 +7,7 @@ import compression from "compression";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import { verifyToken } from "./middleware/auth.js";
 
+// process.env.NODE_OPTIONS = "--dns-result-order=ipv4first";
 dotenv.config();
 
 const app = express();
@@ -14,44 +15,59 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan("dev"));
 app.use(compression());
-app.use(express.json());
 
-const { USER_SERVICE_URL, PRODUCT_SERVICE_URL, ORDER_SERVICE_URL } = process.env;
+const {
+    USER_SERVICE_URL,
+    PRODUCT_SERVICE_URL,
+    ORDER_SERVICE_URL,
+} = process.env;
 
-// ------------------- PROXY ROUTES -------------------
-app.use(
-  "/api/users",
-  createProxyMiddleware({
-    target: USER_SERVICE_URL,
-    changeOrigin: true,
-    pathRewrite: { "^/api/users": "/api/users" },
-  })
-);
-
-app.use(
-  "/api/products",
-  verifyToken,
-  createProxyMiddleware({
-    target: PRODUCT_SERVICE_URL,
-    changeOrigin: true,
-    pathRewrite: { "^/api/products": "/api/products" },
-  })
-);
-
-app.use(
-  "/api/orders",
-  verifyToken,
-  createProxyMiddleware({
-    target: ORDER_SERVICE_URL,
-    changeOrigin: true,
-    pathRewrite: { "^/api/orders": "/api/orders" },
-  })
-);
-
-// ------------------- HEALTH CHECK -------------------
-app.get("/", (req, res) => {
-  res.json({ message: "API Gateway is up and running 🚀" });
+app.use((req, res, next) => {
+    console.log(`➡️ ${req.method} ${req.originalUrl}`);
+    next();
 });
 
+const proxyOptions = {
+    changeOrigin: true,
+    //   timeout: 5000,
+      proxyTimeout: 5000,
+    onError: (err, req, res) => {
+        console.error(`❌ Proxy error for ${req.originalUrl}:`, err.message);
+        res.status(502).json({ message: "Service temporarily unavailable" });
+    },
+};
+
+// Public routes (no auth)
+app.use(
+    "/api/users",
+    createProxyMiddleware({
+        target: USER_SERVICE_URL,
+        ...proxyOptions
+    })
+);
+
+// Protected routes
+app.use(
+    "/api/products",
+    verifyToken,
+    createProxyMiddleware({
+        target: PRODUCT_SERVICE_URL,
+        ...proxyOptions,
+    })
+);
+
+app.use(
+    "/api/orders",
+    verifyToken,
+    createProxyMiddleware({
+        target: ORDER_SERVICE_URL,
+        ...proxyOptions,
+    })
+);
+
+app.get("/", (req, res) => res.json({ status: "API Gateway running 🚀" }));
+
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 API Gateway running on port ${PORT}`));
+app.listen(PORT, "0.0.0.0", () =>
+    console.log(`🚀 API Gateway running on http://127.0.0.1:${PORT}`)
+);
