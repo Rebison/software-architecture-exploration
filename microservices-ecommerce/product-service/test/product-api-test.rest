@@ -1,0 +1,15 @@
+###
+POST http://localhost:3002/api/products
+Content-Type: application/json
+
+{
+  "name": "Laptop",
+  "price": 85000,
+  "stock": 10,
+  "category": "Electronics"
+}
+
+
+###
+GET http://localhost:3002/api/products
+Content-Type: application/json

@@ -1,0 +1,27 @@
+###
+POST http://localhost:3001/api/users/register
+Content-Type: application/json
+
+{
+    "name": "Rebison",
+    "email": "rebison85@gmail.com",
+    "password": "123456"
+}
+
+
+###
+POST http://localhost:3001/api/users/login
+Content-Type: application/json
+
+{
+  "email": "rebison85@gmail.com",
+  "password": "123456"
+}
+
+
+###
+
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4Zjc0ZmQzYWJlMDEwY2VkOTdjNmEzOSIsImlhdCI6MTc2MTAzOTUyNywiZXhwIjoxNzYzNjMxNTI3fQ.ATsUSzdCXaMGa0ZXAUJNWedi3B3FUYypwr1xtKoV18A
+GET http://localhost:3001/api/users/profile
+Authorization: Bearer {{token}}
+Content-Type: application/json
