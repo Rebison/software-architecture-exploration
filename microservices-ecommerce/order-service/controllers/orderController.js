@@ -1,8 +1,9 @@
 import axios from "axios";
 import Order from "../models/Order.js";
+import { getChannel } from "../utils/rabbitmq.js";
 
-const USER_SERVICE_URL = "http://localhost:3001/api/users";
-const PRODUCT_SERVICE_URL = "http://localhost:3002/api/products";
+const USER_SERVICE_URL = "http://localhost:3001";
+const PRODUCT_SERVICE_URL = "http://localhost:3002";
 
 export const createOrder = async (req, res) => {
   try {
@@ -31,12 +32,35 @@ export const createOrder = async (req, res) => {
       totalPrice,
     });
 
-    // Reduce stock in product service (optional)
-    await axios.put(`${PRODUCT_SERVICE_URL}/${productId}`, {
-      stock: product.stock - quantity,
-    });
+    // Publish event to RabbitMQ
+    const channel = getChannel();
+    const event = { type: "order_created", data: order };
+    channel.publish("order_exchange", "", Buffer.from(JSON.stringify(event)));
+    console.log("📨 Order event published:", event);
 
     res.status(201).json({ success: true, order });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+export const cancelOrder = async (req, res) => {
+  try {
+    const orderId = req.params.id;
+    const order = await Order.findById(orderId);
+    if (!order)
+      return res.status(404).json({ success: false, message: "Order not found" });
+
+    order.status = "cancelled";
+    await order.save();
+
+    // Publish 'order_cancelled' event
+    const channel = getChannel();
+    const event = { type: "order_cancelled", data: order };
+    channel.publish("order_exchange", "", Buffer.from(JSON.stringify(event)));
+    console.log("📨 Order cancelled event published:", event);
+
+    res.status(200).json({ success: true, order });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }

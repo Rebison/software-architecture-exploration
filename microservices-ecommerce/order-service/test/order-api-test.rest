@@ -1,4 +1,4 @@
-POST http://localhost:3003/api/orders
+POST http://localhost:3003
 Content-Type: application/json
 
 {
@@ -6,3 +6,7 @@ Content-Type: application/json
     "productId": "68f75794a38bd933fceb4604",
     "quantity": 2
 }
+
+###
+GET http://localhost:3003
+Content-Type: application/json

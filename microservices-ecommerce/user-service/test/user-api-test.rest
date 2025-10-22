@@ -1,5 +1,5 @@
 ###
-POST http://localhost:3001/api/users/register
+POST http://localhost:3001/register
 Content-Type: application/json
 
 {
@@ -10,7 +10,7 @@ Content-Type: application/json
 
 
 ###
-POST http://localhost:3001/api/users/login
+POST http://localhost:3001/login
 Content-Type: application/json
 
 {
@@ -22,6 +22,6 @@ Content-Type: application/json
 ###
 
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4Zjc0ZmQzYWJlMDEwY2VkOTdjNmEzOSIsImlhdCI6MTc2MTAzOTUyNywiZXhwIjoxNzYzNjMxNTI3fQ.ATsUSzdCXaMGa0ZXAUJNWedi3B3FUYypwr1xtKoV18A
-GET http://localhost:3001/api/users/profile
+GET http://localhost:3001/profile
 Authorization: Bearer {{token}}
 Content-Type: application/json

@@ -1,5 +1,5 @@
 ###
-POST http://localhost:3002/api/products
+POST http://localhost:3002/
 Content-Type: application/json
 
 {
@@ -11,5 +11,5 @@ Content-Type: application/json
 
 
 ###
-GET http://localhost:3002/api/products
+GET http://localhost:3002/
 Content-Type: application/json

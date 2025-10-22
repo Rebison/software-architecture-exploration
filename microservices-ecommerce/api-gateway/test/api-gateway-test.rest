@@ -29,7 +29,22 @@ Content-Type: application/json
 
 ###
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4Zjc0ZmQzYWJlMDEwY2VkOTdjNmEzOSIsImlhdCI6MTc2MTAzOTUyNywiZXhwIjoxNzYzNjMxNTI3fQ.ATsUSzdCXaMGa0ZXAUJNWedi3B3FUYypwr1xtKoV18A
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4Zjc0ZmQzYWJlMDEwY2VkOTdjNmEzOSIsImlhdCI6MTc2MTExNTg3NCwiZXhwIjoxNzYzNzA3ODc0fQ.QuFY4wJ-pkXbasaXycF1L2EQBL6plQO_xDy0F1UkJ3k
 GET http://localhost:3000/api/users/profile
 Authorization: Bearer {{token}}
 Content-Type: application/json
+
+#####################
+# Order Service API #
+#####################
+
+###
+POST http://localhost:3000/api/orders
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "userId": "68f74fd3abe010ced97c6a39",
+    "productId": "68f75794a38bd933fceb4604",
+    "quantity": 2
+}
