@@ -1,0 +1,8 @@
+POST http://localhost:4000/api/users/register
+Content-Type: application/json
+
+{
+  "email": "rebison@example.com",
+  "phone": "+911234567890",
+  "deviceId": "device123"
+}
