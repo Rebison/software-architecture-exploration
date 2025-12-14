@@ -1,6 +1,5 @@
+import 'dotenv/config';
 import express from "express";
-import mongoose from "mongoose";
-import dotenv from "dotenv";
 import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
@@ -11,10 +10,6 @@ import { fileURLToPath } from "url";
 import noteRoutes from "./routes/noteRoutes.js";
 import connectDB from "./config/db.js";
 import expressLayouts from "express-ejs-layouts";
-
-
-
-dotenv.config();
 
 const app = express();
 
